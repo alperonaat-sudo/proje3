@@ -1,0 +1,9 @@
+1 sql de veri depolama ve işlemeyi öğrenicem
+2 kendi pcb devremi ve mikro denetleğicimi tasarlıyıcam
+3 denetleyiciye
+Uygun yazılım  dili ile eeg sensörü bağlantısını sağde ve kolay bir biçime çeviricem
+4 sistemi wifi üzerinden aktarımını sağlıyıcam ve bu sayede wifi olan her yerden haberleşme sağlanıcak
+5 solid kullanarak kediye uygun bir tasma tasarlayıp batarya denetleyici ve wifi adaptörü yerlerini ayarlıyıcam
+6 sistemde oluşan veriler için android stüdyo ve basit app inventor den iyi bir kalibrasyon programı yapıcam
+7 oluşan programda hayvanın genel hareketlerini duygu ve düşünde ortamlarını vs. Tüm verileri düzenli şekilde kaydedicem
+8 verileri işleyip bunları komutsal bir mesaj sistemine çevirip hayvanın duygu ve düşğncelerini uygulama üstünden kullanıcıya anlık olarak iletimini sağlıyıcam

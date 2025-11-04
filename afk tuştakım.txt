@@ -1,0 +1,7 @@
+    pyautogui.mouseDown(button='right')
+    time.sleep(0.6)
+    pyautogui.mouseUp(button='right')
+    pyautogui.press('a')
+    time.sleep(0.5)
+    pyautogui.press('d')
+    

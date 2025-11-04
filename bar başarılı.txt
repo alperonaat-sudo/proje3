@@ -1,0 +1,147 @@
+import cv2
+import pyautogui
+import numpy as np
+import time
+import tkinter as tk
+import threading
+
+class ControlPanelApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("kontrol")
+
+        self.start_button = tk.Button(root, text="Başlat", command=self.start_process)
+        self.start_button.pack()
+
+        self.stop_button = tk.Button(root, text="Durdur", command=self.stop_process, state=tk.DISABLED)
+        self.stop_button.pack()
+
+        self.slider_label = tk.Label(root, text="Olta atım mesafesi")
+        self.slider_label.pack()
+
+        self.sleep_slider = tk.Scale(root, from_=0.2, to=1.9, resolution=0.1, orient="horizontal")
+        self.sleep_slider.pack()
+
+        self.running = False
+        self.thread = None
+
+    def start_process(self):
+        self.running = True
+        self.start_button.config(state=tk.DISABLED)
+        self.stop_button.config(state=tk.NORMAL)
+
+        self.thread = threading.Thread(target=self.main_loop)
+        self.thread.start()
+
+    def stop_process(self):
+        self.running = False
+        if self.thread:
+            self.thread.join()
+
+        self.start_button.config(state=tk.NORMAL)
+        self.stop_button.config(state=tk.DISABLED)
+
+    def main_loop(self):
+        while self.running:
+            dosya_yolu_1 = 'C:/Users/nos/Desktop/ekrangg/dene.png'
+            mesaj_1 = "1. görsel algılandı!"
+            if self.metni_ara(dosya_yolu_1, mesaj_1):
+                self.sol_tiklama()
+                del dosya_yolu_1
+                del mesaj_1
+
+            dosya_yolu_2 = 'C:/Users/nos/Desktop/ekrangg/6.png'
+            mesaj_2 = "2. görsel algılandı!"
+            if self.metni_ara(dosya_yolu_2, mesaj_2):
+                self.sol_tiklama2()
+                time.sleep(0.5)
+                self.sol_tiklama2()
+
+            dosya_yolu_4 = 'C:/Users/nos/Desktop/ekrangg/afk.png'
+            mesaj_4 = "tamir ve afk iptali"
+            if self.metni_ara(dosya_yolu_4, mesaj_4):
+                self.afk()
+
+            dosya_yolu_33 = 'C:/Users/nos/Desktop/ekrangg/oldu.png'
+            mesaj_33 = "3. görsel algılandı!"
+            if self.metni_ara(dosya_yolu_33, mesaj_33):
+                self.sol_tiklama3()
+                time.sleep(1.2)
+                while True:
+                    if self.metni_ara(dosya_yolu_33, mesaj_33):
+                        self.sol_tiklama3()
+                        time.sleep(0.5)
+                    if self.metni_ara(dosya_yolu_1, mesaj_1):
+                        break
+                    else:
+                        self.tıklamabl()
+
+    def sol_tiklama(self):
+        pyautogui.mouseDown(button='left')
+        sleep_time = self.sleep_slider.get()
+        time.sleep(sleep_time)
+        pyautogui.mouseUp(button='left')
+
+    def sol_tiklama2(self):
+        pyautogui.mouseDown(button='left')
+
+    def tıklamabl(self):
+        pyautogui.mouseDown(button='left')
+
+    def sol_tiklama3(self):
+        pyautogui.mouseUp(button='left')
+        sleep_time = self.sleep_slider.get()
+        time.sleep(sleep_time)
+
+    def afk(self):
+        time.sleep(6)
+        pyautogui.mouseDown(button='right')
+        time.sleep(0.6)
+        pyautogui.mouseUp(button='right')
+        pyautogui.press('a')
+        time.sleep(1)
+        pyautogui.press('d')
+        time.sleep(1.5)
+        pyautogui.press('tab')
+        time.sleep(0.7)
+        x_coordinate1 = 867
+        y_coordinate1 = 514
+        pyautogui.moveTo(x_coordinate1, y_coordinate1)
+        pyautogui.mouseDown(button='left')
+        time.sleep(0.9)
+        pyautogui.mouseUp(button='left')
+        time.sleep(1)
+        x_coordinate2 = 965
+        y_coordinate2 = 550
+        pyautogui.moveTo(x_coordinate2, y_coordinate2)
+        pyautogui.mouseDown(button='left')
+        time.sleep(0.9)
+        pyautogui.mouseUp(button='left')
+        time.sleep(1.2)
+        pyautogui.press('e')
+        time.sleep(2)
+        pyautogui.press('tab')
+        time.sleep(1.5)
+        pyautogui.press('f3')
+
+    def metni_ara(self, dosya_yolu, mesaj):
+        yazi_goruntu = cv2.imread(dosya_yolu, cv2.IMREAD_GRAYSCALE)
+
+        ekran_goruntu = np.array(pyautogui.screenshot())
+        ekran_goruntu_gri = cv2.cvtColor(ekran_goruntu, cv2.COLOR_BGR2GRAY)
+
+        sonuc = cv2.matchTemplate(ekran_goruntu_gri, yazi_goruntu, cv2.TM_CCOEFF_NORMED)
+        _, max_val, _, max_loc = cv2.minMaxLoc(sonuc)
+
+        eşik_değeri = 0.77
+
+        if max_val > eşik_değeri:
+            print(mesaj)
+            return True
+        else:
+            return False
+
+if __name__ == '__main__':
+    root = tk.Tk()
+    app = ControlPanelApp(root)
+    root.mainloop()

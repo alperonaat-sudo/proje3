@@ -1,0 +1,65 @@
+import pyautogui
+import numpy as np
+import cv2
+import time
+
+
+def sol_tiklama():
+    pyautogui.mouseDown(button='left')
+    time.sleep(1.7)  # Sol tıklama işlemi 1.7 saniye boyunca sürecek
+    pyautogui.mouseUp(button='left')
+
+
+def sol_tiklama2():
+    pyautogui.mouseDown(button='left')
+
+
+def sol_tiklama3():
+    pyautogui.mouseUp(button='left')
+
+
+def metni_ara(dosya_yolu, mesaj, tiklama):
+    yazi_goruntu = cv2.imread(dosya_yolu, cv2.IMREAD_GRAYSCALE)
+
+    while True:
+        ekran_goruntu = np.array(pyautogui.screenshot())
+        ekran_goruntu_gri = cv2.cvtColor(ekran_goruntu, cv2.COLOR_BGR2GRAY)
+
+        sonuc = cv2.matchTemplate(ekran_goruntu_gri, yazi_goruntu, cv2.TM_CCOEFF_NORMED)
+        _, max_val, _, max_loc = cv2.minMaxLoc(sonuc)
+
+        eşik_değeri = 0.75
+
+        if max_val > eşik_değeri:
+            print(mesaj)
+            tiklama()
+            break
+
+
+def main():
+
+    while True:
+        # 1. metni ara ve tıklama yap
+        dosya_yolu_1 = 'C:/Users/nos/Desktop/ekrangg/1.png'
+        mesaj_1 = "1. görsel algılandı!"
+        metni_ara(dosya_yolu_1, mesaj_1, sol_tiklama)
+
+        # 2. metni ara ve tıklama yap
+        dosya_yolu_2 = 'C:/Users/nos/Desktop/ekrangg/2.png'
+        mesaj_2 = "2. görsel algılandı!"
+        metni_ara(dosya_yolu_2, mesaj_2, sol_tiklama2)
+
+        # 3. görsel algılanana kadar işlemi yap
+         dosya_yolu_3 = 'C:/Users/nos/Desktop/ekrangg/33.png'
+         mesaj_3 = "3. görsel algılandı!"
+         metni_ara(dosya_yolu_3, mesaj_3, sol_tiklama3)
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    main()
