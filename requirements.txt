@@ -1,0 +1,31 @@
+# Web framework
+fastapi
+uvicorn[standard]
+
+# Database
+sqlalchemy
+asyncpg
+greenlet
+psycopg[binary]
+
+# Validation & Data
+pydantic
+
+# File upload / forms
+python-multipart
+
+# Templates
+jinja2
+
+# Session security
+itsdangerous
+
+# Password / crypto
+passlib[bcrypt]
+cryptography
+
+# JWT authentication
+python-jose[cryptography]
+
+# Environment variables (opsiyonel, .env dosyası için)
+python-dotenv
